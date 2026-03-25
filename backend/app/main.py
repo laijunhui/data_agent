@@ -1,7 +1,7 @@
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.api import sessions, chat, files
+from app.api import sessions, chat, files, messages
 from app.agents.agent import DataAnalysisAgent
 
 app = FastAPI(title="Data Analysis Agent API")
@@ -17,6 +17,7 @@ app.add_middleware(
 app.include_router(sessions.router)
 app.include_router(chat.router)
 app.include_router(files.router)
+app.include_router(messages.router)
 
 
 @app.get("/health")
