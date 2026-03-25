@@ -7,6 +7,12 @@ class Settings(BaseSettings):
     supabase_url: str
     supabase_key: str
 
+    # Database
+    database_url: str = "postgresql://localhost/data_agent"
+
+    # CORS
+    allowed_origins: str = "*"
+
     # LLM
     openai_api_key: str = ""
     anthropic_api_key: str = ""
