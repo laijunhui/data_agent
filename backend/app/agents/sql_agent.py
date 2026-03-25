@@ -5,6 +5,7 @@ from sqlalchemy import text
 from supabase import create_client, Client
 from app.config import settings
 from app.agents.router import get_llm
+from app.agents.sql_security import SQLSecurityChecker
 from typing import List, Dict, Any
 
 
@@ -15,6 +16,7 @@ class SQLAgent:
             settings.supabase_key
         )
         self.llm = get_llm()
+        self.security_checker = SQLSecurityChecker()
 
     def generate_sql(self, question: str, schema: str = "") -> str:
         """根据自然语言生成 SQL"""
@@ -36,6 +38,7 @@ class SQLAgent:
 
     def execute_sql(self, sql: str) -> List[Dict[str, Any]]:
         """执行 SQL 查询"""
+        self.security_checker.validate_and_sanitize(sql)
         response = self.supabase.rpc("exec_sql", {"query": sql}).execute()
         if response.data:
             return response.data
