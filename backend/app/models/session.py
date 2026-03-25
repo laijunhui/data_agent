@@ -7,6 +7,7 @@ class Session(Base):
     __tablename__ = "sessions"
 
     id = Column(String, primary_key=True)
+    tenant_id = Column(String, nullable=False, index=True)  # 新增
     title = Column(String, default="新会话")
     user_id = Column(String, nullable=True)
     is_shared = Column(Boolean, default=False)
